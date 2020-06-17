@@ -1,23 +1,19 @@
 
-//drivers require kre
 require("chromedriver")
 let swd = require("selenium-webdriver")
 
-//browser instance build kra
 let browser = new swd.Builder()
 let gCodesElements = [];
 let tAreaE = null;
 let gcInputBox = null;
 
-//browser select kra and usme tab khola
+
 let tab = browser.forBrowser("chrome").build()
 
-//ek selenium function use kra tab pr ki jake ye website load kro and usne ek promise dediya hume humne use varibale be sabe krlia
 let tabWillBeOpened = tab.get("https://www.hackerrank.com/auth/login?h_l=body_middle_left_button&h_r=login")
 
 tabWillBeOpened.then(function () {
-    // implicit timeout har baar dusre then ko wait krwata h jb koi element dhunte h and nhi milta h wo
-    //ye wala then 
+   
     let findTimeOutP = tab.manage().setTimeouts({
         implicit: 10000
     });
@@ -29,11 +25,11 @@ tabWillBeOpened.then(function () {
         return Promise.all([ passwordBoxPromise, inputBoxPromise]);
 })
     .then(function(bothBox){
-        //xokohew786@bewedfv.com AutomationL temp-mail
+        
         let passwordBox = bothBox[0]
         let inputBox = bothBox[1]
-        let passwordWillBeFilled = passwordBox.sendKeys("AutomationL")
-        let inputBoxWillBeFilled = inputBox.sendKeys("xokohew786@bewedfv.com")
+        let passwordWillBeFilled = passwordBox.sendKeys("//Enter your password here")
+        let inputBoxWillBeFilled = inputBox.sendKeys("//Enter your email here")
         return Promise.all([inputBoxWillBeFilled, passwordWillBeFilled]);
     })
     .then(function(){
@@ -60,8 +56,7 @@ tabWillBeOpened.then(function () {
         let warmupBtnWillBeClicked = warmupBtn.click()
         return warmupBtnWillBeClicked;
     }).then(function () {
-        // console.log("Reached warm challenges page")
-        // selenium
+        
         let allQtag = tab.findElements(swd.By.css("a.js-track-click.challenge-list-item"));
         return allQtag
     }).then(function (alQues) {
@@ -71,8 +66,7 @@ tabWillBeOpened.then(function () {
         let allLinkPromise = Promise.all(allQLinkP);
         return allLinkPromise;
     }).then(function (allQLink) {
-        // serial execution of all the promises
-        // ??
+       
         let f1Promise = questionSolver(allQLink[0]);
         for (let i = 1; i < allQLink.length; i++) {
             f1Promise = f1Promise.then(function () {
@@ -105,18 +99,18 @@ tabWillBeOpened.then(function () {
             return editBtnWillBeClicked;
         })
         .then(function(){
-            let lockBtnHandled = handleLockBtn();  //promise return 
+            let lockBtnHandled = handleLockBtn();  
             return lockBtnHandled;
         })
         .then(function () {
-            let cCodeWillBecopied = copyCode(); //promise A
+            let cCodeWillBecopied = copyCode(); 
             return cCodeWillBecopied;
-        }).then(function (code) {  //data = Promise A result = code
+        }).then(function (code) {  
             let codeWillBepastedP = pasteCode(code);  
             return codeWillBepastedP;
         })
         .then(function(){
-            resolve() //Promise -> Pending ->Settled
+            resolve() 
         })
         .catch(function (err) {
             reject(err);
@@ -159,9 +153,9 @@ function handleLockBtn(){
 
 function copyCode() {
     return new Promise(function (resolve, reject) {
-        // all name
+        
         let allLangElementP = tab.findElements(swd.By.css(".hackdown-content h3"));
-        // get all the code array
+       
         let allcodeEementP = tab.findElements(swd.By.css(".hackdown-content .highlight"));
 
 
@@ -169,12 +163,12 @@ function copyCode() {
 
         bothArrayP
             .then(function (bothArrays) {
-                let langsElements = bothArrays[0]; //Elements language ke naam (not string)
+                let langsElements = bothArrays[0]; 
                 gCodesElements = bothArrays[1];
                 let allLangTextP = [];
                 for (let i = 0; i < langsElements.length; i++) {
                     let cLangP = langsElements[i].getText();
-                    allLangTextP.push(cLangP);  //promises for all elements ki string value do
+                    allLangTextP.push(cLangP);  
                 }
                 return Promise.all(allLangTextP);
             })
@@ -182,7 +176,7 @@ function copyCode() {
                 let codeOfCP;
                 for (let i = 0; i < allLangs.length; i++) {
                     if (allLangs[i].includes("C++")) {
-                        codeOfCP = gCodesElements[i].getText(); // Code milra h , promise lake dera h
+                        codeOfCP = gCodesElements[i].getText(); 
                         break;
                     }
                 }
@@ -254,7 +248,6 @@ function pasteCode(code) {
         }).catch(function (err) {
             reject(err);
         })
-        // write the code 
-        // submit the code 
+        
     })
 }
