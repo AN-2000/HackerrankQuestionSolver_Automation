@@ -87,10 +87,10 @@ tabWillBeOpened.then(function () {
 
     function questionSolver(url) {
         return new Promise(function (resolve, reject) {
-            // logic to solve a question
+           
             let qPageWillBeOpenedP = tab.get(url);
             qPageWillBeOpenedP.then(function () {
-            // resolve();
+           
             let EditorButtonWillBeSelected = tab.findElement(swd.By.css("a[data-attr2='Editorial']"))
             return EditorButtonWillBeSelected;
         })
@@ -192,7 +192,7 @@ function copyCode() {
 
 function pasteCode(code) {
     return new Promise(function (resolve, reject) {
-        // click on problem tab
+       
         let pTabWillBeSelectedP = tab.findElement(swd.By.css("li#Problem"));
         pTabWillBeSelectedP.then(function (pTab) {
             let pTwillBeClickedP = pTab.click();
